@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,9 +20,19 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
 
     private List<Result> resultList;
     private Context context;
+    AdapterView.OnItemClickListener onItemClickListener;
     public ResultAdapter(Context context, List<Result> resultList) {
         this.context = context;
         this.resultList = resultList;
+
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = (AdapterView.OnItemClickListener) onItemClickListener;
     }
 
     @NonNull
@@ -29,7 +40,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
     public ResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.itemresult, null);
-        return new ResultViewHolder(view);
+        return new ResultViewHolder(view, (OnItemClickListener) onItemClickListener);
     }
 
     @Override
@@ -45,9 +56,20 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultView
 
     public class ResultViewHolder extends RecyclerView.ViewHolder{
         TextView textViewCategory;
-        public ResultViewHolder(@NonNull View itemView) {
+        public ResultViewHolder(@NonNull View itemView, final OnItemClickListener onItemClickListener) {
             super(itemView);
             textViewCategory = itemView.findViewById(R.id.txt_category);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onItemClickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.amitvikram.smartstudyapp;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -155,6 +156,15 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             //creating adapter object and setting it to recyclerview
 
                             ResultAdapter adapter = new ResultAdapter(getContext(), resultList);
+                            adapter.setOnItemClickListener(new ResultAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int position) {
+                                    String categoryName = resultList.get(position).getCategory();
+                                    Intent intent = new Intent(getContext(), TopicActivity.class);
+                                    intent.putExtra("category", categoryName);
+                                    startActivity(intent);
+                                }
+                            });
                             recyclerView.setAdapter(adapter);
                             if (resultList.size() == 0) {
                                 errorLayout.setVisibility(View.VISIBLE);
