@@ -3,17 +3,16 @@ package com.amitvikram.smartstudyapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -47,12 +46,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private static String URL_RESULT = "http://smartstudyapp.000webhostapp.com/read_detail.php";
     List<Result> resultList;
     RecyclerView recyclerView;
+    int previousSIZE;
     private OnFragmentInteractionListener mListener;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RelativeLayout errorLayout;
-    int previousSIZE;
-
-
+    private Adapter adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -96,7 +94,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         recyclerView = view.findViewById(R.id.result_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        resultList = new ArrayList<Result>();
+        resultList = new ArrayList<>();
         swipeRefreshLayout = view.findViewById(R.id.refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -106,16 +104,17 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         previousSIZE = resultList.size();
         return view;
     }
+
     @Override
     public void onRefresh() {
-        if(previousSIZE <= resultList.size()) {
+        if (previousSIZE <= resultList.size()) {
             swipeRefreshLayout.setRefreshing(false);
-        }
-        else {
+        } else {
             loadResults();
         }
     }
-    private void onLoadingSwipeRefresh(){
+
+    private void onLoadingSwipeRefresh() {
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -123,6 +122,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         });
     }
+
     private void loadResults() {
 
         /*
@@ -154,25 +154,17 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             }
 
                             //creating adapter object and setting it to recyclerview
-
-                            ResultAdapter adapter = new ResultAdapter(getContext(), resultList);
-                            adapter.setOnItemClickListener(new ResultAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(int position) {
-                                    String categoryName = resultList.get(position).getCategory();
-                                    Intent intent = new Intent(getContext(), TopicActivity.class);
-                                    intent.putExtra("category", categoryName);
-                                    startActivity(intent);
-                                }
-                            });
+                            adapter = new Adapter(resultList, getContext());
                             recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            initListener();
                             if (resultList.size() == 0) {
                                 errorLayout.setVisibility(View.VISIBLE);
                             }
                             swipeRefreshLayout.setRefreshing(false);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(getContext(), "Error " +e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Error " + e.toString(), Toast.LENGTH_LONG).show();
                             errorLayout.setVisibility(View.VISIBLE);
                             swipeRefreshLayout.setRefreshing(false);
                         }
@@ -184,11 +176,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         errorLayout.setVisibility(View.VISIBLE);
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                })
-        {
+                }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                params.put("details_type", "category");
                 return params;
             }
         };
@@ -198,8 +190,16 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+
+    private void initListener() {
+        adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), TopicActivity.class);
+                intent.putExtra("category", resultList.get(position).getCategory());
+                startActivity(intent);
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -213,5 +213,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
     }
 }
