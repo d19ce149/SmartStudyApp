@@ -1,13 +1,19 @@
 package com.amitvikram.smartstudyapp;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +30,10 @@ public class UserFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    SessionManager sessionManager;
+    private TextView name, email, mobile;
+    private Button btn_logout, btn_update;
+    String getMobile, getUserName, getEmail;
     public UserFragment() {
         // Required empty public constructor
     }
@@ -60,7 +69,39 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
+        View view = inflater.inflate(R.layout.fragment_user, container, false);
+        sessionManager = new SessionManager(getContext());
+        sessionManager.checkLogin();
+        btn_update = view.findViewById(R.id.materialUpdateButton);
+        name = view.findViewById(R.id.txt_name);
+        email = view.findViewById(R.id.txt_email);
+        mobile = view.findViewById(R.id.txt_mobile);
+        btn_logout = view.findViewById(R.id.materialLogoutButton);
+        HashMap<String, String> user = sessionManager.getUserDetail();
+        getMobile = user.get(SessionManager.MOBILE);
+        getUserName = user.get(SessionManager.NAME);
+        getEmail = user.get(SessionManager.EMAIL);
+        mobile.setText(getMobile);
+        name.setText(getUserName);
+        email.setText(getEmail);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                sessionManager.logout();
+            }
+        });
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), UpdateActivity.class);
+                intent.putExtra("name", name.getText().toString());
+                intent.putExtra("email", email.getText().toString());
+                intent.putExtra("phone", mobile.getText().toString());
+                startActivity(intent);
+            }
+        });
+        return view;
     }
 
     public interface OnFragmentInteractionListener {

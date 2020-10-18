@@ -18,16 +18,19 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, BookFragment.OnFragmentInteractionListener, VideoFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener {
     Intent intent;
     BottomNavigationView bottomNavigationView;
-
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sessionManager = new SessionManager(this);
+        intent = new Intent(MainActivity.this, LoginActivity.class);
         final HomeFragment homeFragment = new HomeFragment();
         final VideoFragment videoFragment = new VideoFragment();
         final BookFragment bookFragment = new BookFragment();
         final UserFragment userFragment = new UserFragment();
+        setFragment(homeFragment);
         bottomNavigationView = findViewById(R.id.bottom_nav_menu);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                         return true;
                     case R.id.nav_video:
                         setFragment(videoFragment);
+                        return true;
                     case R.id.nav_user:
                         setFragment(userFragment);
                         return true;
