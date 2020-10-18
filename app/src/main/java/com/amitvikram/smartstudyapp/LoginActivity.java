@@ -58,10 +58,13 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
     //Todo: Change URL when integrate on server
     private static String URL_LOGIN = "http://smartstudyapp.000webhostapp.com/login.php";
+    SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        sessionManager = new SessionManager(LoginActivity.this);
         createAccount = findViewById(R.id.createAccount);
         etEmail = findViewById(R.id.login_emailid);
         etPassword = findViewById(R.id.login_password);
@@ -168,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                                     String name = object.getString("name").trim();
                                     String email = object.getString("email").trim();
                                     String mobile = object.getString("mobile").trim();
-//                                    sessionManager.createSession(name, email, mobile);
+                                    sessionManager.createSession(name, email, mobile);
                                     Toast.makeText(getApplicationContext(), name, Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("name", name);
