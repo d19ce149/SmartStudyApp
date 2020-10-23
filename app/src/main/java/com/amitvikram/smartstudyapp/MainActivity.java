@@ -6,17 +6,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, BookFragment.OnFragmentInteractionListener, VideoFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener {
-    Intent intent;
+    Intent intent, intent1;
     BottomNavigationView bottomNavigationView;
     SessionManager sessionManager;
 
@@ -25,7 +30,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sessionManager = new SessionManager(this);
+        sessionManager.checkLogin();
         intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent1 = getIntent();
         final HomeFragment homeFragment = new HomeFragment();
         final VideoFragment videoFragment = new VideoFragment();
         final BookFragment bookFragment = new BookFragment();
@@ -54,6 +61,37 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_uploads) {
+            //redirect on upload activity
+            Intent intent = new Intent(MainActivity.this, UploadTopicActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu ) {
+        getMenuInflater().inflate(R.menu.menu_bar, menu);
+        MenuItem upload = menu.findItem(R.id.action_uploads);
+        upload.setVisible(false);
+        HashMap<String, String> user = sessionManager.getUserDetail();
+        if (user.get(SessionManager.USERTYPE).equals("teacher")) {
+            upload.setVisible(true);
+        }
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void setFragment(Fragment fragment) {
