@@ -77,6 +77,29 @@
             tools:text="Home - Adam" />
 
     </com.google.android.material.textfield.TextInputLayout>
+    <RadioGroup
+        android:id="@+id/radioGrpUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <RadioButton
+            android:id="@+id/radioStudentUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimary"
+            android:text="@string/student"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/radioTeacherUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimary"
+            android:text="@string/teacher"
+            android:textColor="@color/black" />
+    </RadioGroup>
 
     <Button
         android:id="@+id/btn_update"

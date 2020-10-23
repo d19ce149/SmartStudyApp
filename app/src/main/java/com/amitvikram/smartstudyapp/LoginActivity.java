@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
     private RadioButton radioButtonStudent, radioButtonTeacher;
     private RadioGroup rdGroup;
-    private String userType = "";
+    private static String userType = "";
     private GoogleSignInButton signInButton;
     // Build a GoogleSignInClient with the options specified by gso.
     private GoogleSignInClient mGoogleSignInClient;
@@ -171,12 +171,13 @@ public class LoginActivity extends AppCompatActivity {
                                     String name = object.getString("name").trim();
                                     String email = object.getString("email").trim();
                                     String mobile = object.getString("mobile").trim();
-                                    sessionManager.createSession(name, email, mobile);
+                                    sessionManager.createSession(name, email, mobile, userType);
                                     Toast.makeText(getApplicationContext(), name, Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("name", name);
                                     intent.putExtra("email", email);
                                     intent.putExtra("mobile", mobile);
+                                    intent.putExtra("usertype", userType);
                                     startActivity(intent);
                                     finish();
                                 }

@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1056048710996:android:a1acf8f7f79109c0d334c1",
+        "mobilesdk_app_id": "1:1056048710996:android:d6ce10620e6fa2bdd334c1",
         "android_client_info": {
           "package_name": "com.amitvikram.smartstudyapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1056048710996-j1j0nr7ppgeb4j3vb4uidf17l5imd021.apps.googleusercontent.com",
+          "client_id": "1056048710996-alk4eg0c3iijln3tho3bd5nq4622qsdt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.amitvikram.smartstudyapp",
-            "certificate_hash": "5fb26fa113d231c5962ce101bbf1eb8fb35c620d"
+            "certificate_hash": "d0b7da6d0c512c0d4cc52da7590ddd709cd55f07"
           }
         },
         {

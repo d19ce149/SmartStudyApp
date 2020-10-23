@@ -103,7 +103,7 @@ public class TopicActivity extends AppCompatActivity implements SwipeRefreshLayo
 
                                 //adding the product to product list
                                 topicList.add(new Topic(
-                                        topic.getString("topic_name").trim(), topic.getString("topic_details").trim()
+                                        topic.getString("topic_name").trim(), topic.getString("topic_details").trim(), topic.getString("model_name").trim(), topic.getString("model_link").trim()
                                 ));
                             }
 
@@ -153,6 +153,8 @@ public class TopicActivity extends AppCompatActivity implements SwipeRefreshLayo
                 Intent intent = new Intent(TopicActivity.this, DetailsActivity.class);
                 intent.putExtra("topic_name", topicList.get(position).getTopicName());
                 intent.putExtra("topic_details", topicList.get(position).getTopicDetails());
+                intent.putExtra("model_link", topicList.get(position).getModelLink());
+                intent.putExtra("model_name", topicList.get(position).getModelName());
                 startActivity(intent);
             }
         });
