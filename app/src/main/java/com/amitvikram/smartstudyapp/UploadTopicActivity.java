@@ -152,7 +152,7 @@ public class UploadTopicActivity extends AppCompatActivity implements Spinner.On
         String modellink = modelLink;
 
         if (name.equals("") || desc.equals("") || modelname.equals("") || modellink.equals("")) {
-            Toast.makeText(this, "PLease Enter All The Topic Details!!!", Toast.LENGTH_LONG);
+            Toast.makeText(this, "Please Enter All The Topic Details!!!", Toast.LENGTH_LONG);
 //            loading.setVisibility(View.GONE);
 //            btn_regist.setVisibility(View.VISIBLE);
         } else {
@@ -169,13 +169,13 @@ public class UploadTopicActivity extends AppCompatActivity implements Spinner.On
 //                                    loading.setVisibility(View.GONE);
 //                                    btn_regist.setVisibility(View.VISIBLE);
                                 } else if (success.equals("1")) {
-                                    Toast.makeText(UploadTopicActivity.this, "Update Success!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(UploadTopicActivity.this, "Upload Success!", Toast.LENGTH_SHORT).show();
 //                                    loading.setVisibility(View.GONE);
 //                                    btn_regist.setVisibility(View.VISIBLE);
                                     Intent intent = new Intent(UploadTopicActivity.this, MainActivity.class);
                                     startActivity(intent);
                                 } else {
-                                    Toast.makeText(UploadTopicActivity.this, "Update Success!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(UploadTopicActivity.this, "Upload Success!", Toast.LENGTH_SHORT).show();
 //                                    loading.setVisibility(View.GONE);
 //                                    btn_regist.setVisibility(View.VISIBLE);
                                 }

@@ -287,7 +287,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Please select student or teacher", Toast.LENGTH_LONG).show();
             return;
         }
-        if (!validateUname() || !validatePhone() || !validateEmail() || !validatePassword()) {
+        if (!validateUname() || !validatePhone() || !validateEmail() || !validatePassword() || !validateConfirmPassword()) {
             Toast.makeText(this, "PLease Enter All The Correct Details!!!", Toast.LENGTH_LONG);
 //            loading.setVisibility(View.GONE);
 //            btn_regist.setVisibility(View.VISIBLE);
@@ -311,7 +311,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                 } else {
-                                    Toast.makeText(RegisterActivity.this, "Register Success!", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(RegisterActivity.this, "Register Success!", Toast.LENGTH_SHORT).show();
 //                                    loading.setVisibility(View.GONE);
 //                                    btn_regist.setVisibility(View.VISIBLE);
                                 }
@@ -319,7 +319,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Toast.makeText(RegisterActivity.this, "User Already Exist. " + e.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Error" + e.toString(), Toast.LENGTH_SHORT).show();
 //                                loading.setVisibility(View.GONE);
 //                                btn_regist.setVisibility(View.VISIBLE);
                             }
