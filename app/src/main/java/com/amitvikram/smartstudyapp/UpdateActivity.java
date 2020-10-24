@@ -30,9 +30,9 @@ import java.util.Map;
 public class UpdateActivity extends AppCompatActivity {
     private TextInputEditText txtName, txtPhone, txtEmail;
     private static String URL_REGIST = "http://smartstudyapp.000webhostapp.com/update_user_details.php";
-    private RadioButton radioButtonStudent, radioButtonTeacher;
+//    private RadioButton radioButtonStudent, radioButtonTeacher;
     private String userType = "";
-    private RadioGroup radioGroup;
+//    private RadioGroup radioGroup;
     private String old_email;
     private Button updateBtn;
     @Override
@@ -42,25 +42,26 @@ public class UpdateActivity extends AppCompatActivity {
         txtName = findViewById(R.id.editText_name);
         txtPhone = findViewById(R.id.editText_phone);
         txtEmail = findViewById(R.id.editText_email);
-        radioButtonStudent = findViewById(R.id.radioStudentUpdate);
-        radioButtonTeacher = findViewById(R.id.radioTeacherUpdate);
-        radioGroup = findViewById(R.id.radioGrpUpdate);
+//        radioButtonStudent = findViewById(R.id.radioStudentUpdate);
+//        radioButtonTeacher = findViewById(R.id.radioTeacherUpdate);
+//        radioGroup = findViewById(R.id.radioGrpUpdate);
         updateBtn = findViewById(R.id.btn_update);
         Intent intent = getIntent();
         txtName.setText(intent.getStringExtra("name"));
         txtEmail.setText(intent.getStringExtra("email"));
         txtPhone.setText(intent.getStringExtra("phone"));
         old_email = txtEmail.getText().toString();
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (i == radioButtonStudent.getId()) {
-                    userType = "student";
-                } else if (i == radioButtonTeacher.getId()) {
-                    userType = "teacher";
-                }
-            }
-        });
+        //todo: get usertype by session
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//                if (i == radioButtonStudent.getId()) {
+//                    userType = "student";
+//                } else if (i == radioButtonTeacher.getId()) {
+//                    userType = "teacher";
+//                }
+//            }
+//        });
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
